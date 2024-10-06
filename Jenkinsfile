@@ -7,7 +7,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 sh '''
-                cd /projects/CICD
+                cd projects/CICD
                 git pull origin main
                 '''
             }
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 sh '''
                 yarn install --production
-                cd /src
+                cd src
                 pm2 start app.js --name="cicd"
                 '''
             }
