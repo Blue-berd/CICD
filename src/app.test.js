@@ -1,7 +1,6 @@
-const request = require("supertest");
-const chai = require("chai");
-const expect = chai.expect;
-const app = require("./app.js");
+import request from "supertest";
+import { expect } from "chai";
+import app from "./app.js"; 
 
 describe("GET /", () => {
   it("should return Hello World", async () => {
