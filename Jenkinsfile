@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     dir('/var/lib/jenkins/projects/CICD') {
-                        sh 'npm install'
+                        sh 'yarn install'
                     }
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     dir('/var/lib/jenkins/projects/CICD') {
-                        sh 'npm test'
+                        sh 'yarn test'
                     }
                 }
             }
