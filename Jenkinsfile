@@ -50,7 +50,7 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 script {
-                    dir('/projects/CICD') {
+                    dir('/var/lib/jenkins/projects/CICD') {
                         sh ''' 
                         git pull origin main
                         yarn install --production
