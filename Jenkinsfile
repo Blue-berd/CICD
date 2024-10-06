@@ -4,39 +4,31 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    dir('/var/lib/jenkins/projects/CICD') {
-                        sh 'ls' 
-                    }
-                }
+                git branch: 'main', url: 'https://github.com/Blue-berd/CICD.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    dir('/var/lib/jenkins/projects/CICD') {
-                        sh 'yarn install'
-                    }
-                }
+                sh '/var/lib/jenkins/.nvm/versions/node/v20.18.0/bin/yarn install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    dir('/var/lib/jenkins/projects/CICD') {
-                        sh 'yarn test'
-                    }
-                }
+                sh '/var/lib/jenkins/.nvm/versions/node/v20.18.0/bin/yarn test'
             }
         }
 
         stage('Deploy to Production') {
             steps {
                 script {
-                    dir('/var/lib/jenkins/projects/CICD') {
-                        sh './deploy.sh'
+                    dir('/projects/CICD') {
+                        sh ''' 
+                        git pull origin main
+                        npm install --production
+                        pm2 restart backend
+                        '''
                     }
                 }
             }
@@ -44,8 +36,14 @@ pipeline {
     }
 
     post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
         always {
-            echo 'Deployment finished!'
+            echo 'Deployment process finished!'
         }
     }
 }
