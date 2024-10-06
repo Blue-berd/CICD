@@ -20,7 +20,12 @@ pipeline {
                 sh 'yarn install' 
             }
         }
-        stage('Kill Previous Process') { 
+        stage('Check Processes') {
+            steps {
+            sh 'lsof -i:3001 || echo "No process using port 3001"'
+            }
+        }
+       stage('Kill Previous Process After Tests') { 
             steps {
                 sh 'fuser -k 3001/tcp || true'
             }
