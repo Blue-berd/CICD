@@ -7,38 +7,40 @@ pipeline {
     stages {
         stage('Cleanup') {
             steps {
-                cleanWs()
+                cleanWs() // Cleans the workspace
             }
         }
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/Blue-berd/CICD.git']]])
+                // Checkout the specified branch from the git repository
+                git branch: 'main', url: 'https://github.com/Blue-berd/CICD.git'
             }
         }
-
         stage('Install Dependencies') {
             steps {
+                // Install project dependencies using yarn
                 sh 'yarn install' 
             }
         }
-
         stage('Run Tests') {
             steps {
-                withEnv(['PORT=3001']) { 
+                withEnv(['PORT=3001']) {
+                    // Run tests and capture the exit status
                     script {
                         def process = sh(script: 'yarn test', returnStatus: true)
+                        // Check the exit status of the test command
                         if (process != 0) {
-                            error("Tests failed")
+                            error("Tests failed") // If tests fail, stop the pipeline
                         }
                     }
                 }
             }
         }
-
         stage('Deploy to Production') {
             steps {
                 script {
                     dir('/projects/CICD') {
+                        // Pull the latest code, install production dependencies, and restart the service
                         sh ''' 
                         git pull origin main
                         yarn install --production
@@ -49,16 +51,15 @@ pipeline {
             }
         }
     }
-
     post {
         success {
-            echo 'Deployment successful!'
+            echo 'Deployment successful!' // Log success message
         }
         failure {
-            echo 'Deployment failed!'
+            echo 'Deployment failed!' // Log failure message
         }
         always {
-            echo 'Deployment process finished!'
+            echo 'Deployment process finished!' // Log that the process finished
         }
     }
 }
