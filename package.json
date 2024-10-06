@@ -15,7 +15,8 @@
   "author": "Jay",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.21.0"
+    "express": "^4.21.0",
+    "supertest": "^7.0.0"
   },
   "keywords": [
     "nodejs",
