@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon index.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "test": "PORT=3001 mocha src/*.test.js"
   },
   "repository": {
