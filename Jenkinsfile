@@ -29,7 +29,7 @@ pipeline {
                     dir('/projects/CICD') {
                         sh ''' 
                         git pull origin main
-                        npm install --production
+                        yarn install --production
                         pm2 restart backend 
                         '''
                     }
