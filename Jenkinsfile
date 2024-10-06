@@ -15,7 +15,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'yarn install' 
+                sh '/home/ubuntu/.nvm/versions/node/v20.18.0/bin/yarn install' 
             }
         }
 
