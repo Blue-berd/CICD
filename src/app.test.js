@@ -8,12 +8,18 @@ dotenv.config();
 let server;
 
 describe("GET /", () => {
+  // Start the server before tests
   before((done) => {
     server = app.listen(process.env.PORT, done);
   });
 
+  // Close the server after tests
   after((done) => {
-    server.close(done);
+    if (server) {
+      server.close(done);
+    } else {
+      done();
+    }
   });
 
   it("should return Hello World", async () => {

@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Blue-berd/CICD.git'
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/Blue-berd/CICD.git']]])
             }
         }
 
@@ -24,8 +24,13 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                withEnv(['PORT=3001']) {
-                    sh 'yarn test' 
+                withEnv(['PORT=3001']) { 
+                    script {
+                        def process = sh(script: 'yarn test', returnStatus: true)
+                        if (process != 0) {
+                            error("Tests failed")
+                        }
+                    }
                 }
             }
         }
