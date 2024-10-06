@@ -15,7 +15,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '/home/ubuntu/.nvm/versions/node/v20.18.0/bin/yarn install' 
+                sh 'yarn install' 
             }
         }
 
@@ -30,7 +30,7 @@ pipeline {
                 sh '''
                 yarn install --production
                 cd src
-                pm2 start app.js
+                pm2 start app.js --name="cicd"
                 '''
             }
         }
