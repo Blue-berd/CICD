@@ -22,7 +22,12 @@ pipeline {
                 sh 'yarn install' 
             }
         }
-        sh 'fuser -k 3001/tcp || true'
+        stage('Kill Previous Process') { // Added this stage to handle killing the process
+            steps {
+                // Kill any process using port 3001
+                sh 'fuser -k 3001/tcp || true'
+            }
+        }
         stage('Run Tests') {
             steps {
                 withEnv(['PORT=3001']) {
@@ -37,7 +42,12 @@ pipeline {
                 }
             }
         }
-        sh 'fuser -k 3001/tcp || true'
+        stage('Kill Previous Process After Tests') { // Added this stage again if needed
+            steps {
+                // Kill any process using port 3001 after tests
+                sh 'fuser -k 3001/tcp || true'
+            }
+        }
         stage('Deploy to Production') {
             steps {
                 script {
