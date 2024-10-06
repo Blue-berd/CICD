@@ -25,7 +25,7 @@ pipeline {
             sh 'lsof -i:3001 || echo "No process using port 3001"'
             }
         }
-       stage('Kill Previous Process After Tests') { 
+       stage('Kill Previous Process before Tests') { 
             steps {
                 sh 'fuser -k 3001/tcp || true'
             }
