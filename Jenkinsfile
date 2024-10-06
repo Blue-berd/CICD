@@ -19,7 +19,9 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'yarn test' 
+                withEnv(['PORT=3001']) {
+                    sh 'yarn test' 
+                }
             }
         }
 

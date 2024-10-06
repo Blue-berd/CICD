@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon index.js",
-    "test": "mocha src/*.test.js"
+    "test": "PORT=3001 mocha src/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,7 @@
   "author": "Jay",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "supertest": "^7.0.0"
   },
