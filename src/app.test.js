@@ -16,9 +16,9 @@ describe("GET /", () => {
     server.close(done);
   });
 
-  it("should return Hello World!", async () => {
+  it("should return Hello World", async () => {
     const res = await request(server).get("/");
-    expect(res.text).to.equal("Hello World!");
+    expect(res.text).to.equal("Hello World");
     expect(res.statusCode).to.equal(200);
   });
 });
