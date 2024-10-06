@@ -1,47 +1,51 @@
 pipeline {
     agent any
 
-  
-
     stages {
         stage('Checkout') {
             steps {
-                sh '''
-                cd projects/CICD
-                git pull origin main
-                '''
+                script {
+                    dir('/var/lib/jenkins/projects/CICD') {
+                        sh 'ls' 
+                    }
+                }
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'yarn install' 
+                script {
+                    dir('/var/lib/jenkins/projects/CICD') {
+                        sh 'npm install'
+                    }
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'yarn test' 
+                script {
+                    dir('/var/lib/jenkins/projects/CICD') {
+                        sh 'npm test'
+                    }
+                }
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                sh '''
-                yarn install --production
-                cd src
-                pm2 start app.js --name="cicd"
-                '''
+                script {
+                    dir('/var/lib/jenkins/projects/CICD') {
+                        sh './deploy.sh'
+                    }
+                }
             }
         }
     }
 
     post {
-        success {
-            echo 'Deployment successful!'
-        }
-        failure {
-            echo 'Deployment failed!'
+        always {
+            echo 'Deployment finished!'
         }
     }
 }
