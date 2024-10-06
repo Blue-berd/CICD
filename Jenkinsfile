@@ -7,44 +7,38 @@ pipeline {
     stages {
         stage('Cleanup') {
             steps {
-                cleanWs() // Cleans the workspace
+                cleanWs() 
             }
         }
         stage('Checkout') {
             steps {
-                // Checkout the specified branch from the git repository
                 git branch: 'main', url: 'https://github.com/Blue-berd/CICD.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                // Install project dependencies using yarn
                 sh 'yarn install' 
             }
         }
-        stage('Kill Previous Process') { // Added this stage to handle killing the process
+        stage('Kill Previous Process') { 
             steps {
-                // Kill any process using port 3001
                 sh 'fuser -k 3001/tcp || true'
             }
         }
         stage('Run Tests') {
             steps {
                 withEnv(['PORT=3001']) {
-                    // Run tests and capture the exit status
                     script {
                         def process = sh(script: 'yarn test', returnStatus: true)
-                        // Check the exit status of the test command
                         if (process != 0) {
-                            error("Tests failed") // If tests fail, stop the pipeline
+                            error("Tests failed") 
                         }
                     }
                 }
             }
         }
-        stage('Kill Previous Process After Tests') { // Added this stage again if needed
+        stage('Kill Previous Process After Tests') { 
             steps {
-                // Kill any process using port 3001 after tests
                 sh 'fuser -k 3001/tcp || true'
             }
         }
@@ -52,7 +46,6 @@ pipeline {
             steps {
                 script {
                     dir('/projects/CICD') {
-                        // Pull the latest code, install production dependencies, and restart the service
                         sh ''' 
                         git pull origin main
                         yarn install --production
@@ -65,13 +58,13 @@ pipeline {
     }
     post {
         success {
-            echo 'Deployment successful!' // Log success message
+            echo 'Deployment successful!' 
         }
         failure {
-            echo 'Deployment failed!' // Log failure message
+            echo 'Deployment failed!' 
         }
         always {
-            echo 'Deployment process finished!' // Log that the process finished
+            echo 'Deployment process finished!' 
         }
     }
 }
