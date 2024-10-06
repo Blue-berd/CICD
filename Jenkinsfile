@@ -22,6 +22,7 @@ pipeline {
                 sh 'yarn install' 
             }
         }
+        sh 'fuser -k 3001/tcp || true'
         stage('Run Tests') {
             steps {
                 withEnv(['PORT=3001']) {
@@ -36,6 +37,7 @@ pipeline {
                 }
             }
         }
+        sh 'fuser -k 3001/tcp || true'
         stage('Deploy to Production') {
             steps {
                 script {
