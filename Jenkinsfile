@@ -5,6 +5,10 @@ pipeline {
         PATH = "${NODE_HOME}/bin:${env.PATH}"
     }
     stages {
+        stage('Cleanup') {
+            steps {
+                cleanWs() 
+        }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Blue-berd/CICD.git'
