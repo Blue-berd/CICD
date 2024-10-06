@@ -7,26 +7,20 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    git branch: 'main', url: 'https://github.com/Blue-berd/CICD.git'
-                }
+                git branch: 'main', url: 'https://github.com/Blue-berd/CICD.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    sh 'yarn install'
-                }
+                sh 'yarn install' 
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    withEnv(['PORT=3001']) {
-                        sh 'yarn test'
-                    }
+                withEnv(['PORT=3001']) {
+                    sh 'yarn test' 
                 }
             }
         }
