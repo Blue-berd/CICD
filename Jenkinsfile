@@ -27,7 +27,7 @@ pipeline {
                         sh ''' 
                         git pull origin main
                         npm install --production
-                        pm2 restart backend
+                        /var/lib/jenkins/.nvm/versions/node/v20.18.0/bin/pm2 restart backend
                         '''
                     }
                 }
