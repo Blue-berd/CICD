@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    environment {
+        NODE_HOME = "/var/lib/jenkins/.nvm/versions/node/v20.18.0"
+        PATH = "${NODE_HOME}/bin:${env.PATH}"
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -10,13 +13,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '/var/lib/jenkins/.nvm/versions/node/v20.18.0/bin/yarn install'
+                sh 'yarn install' 
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '/var/lib/jenkins/.nvm/versions/node/v20.18.0/bin/yarn test'
+                sh 'yarn test' 
             }
         }
 
@@ -27,7 +30,7 @@ pipeline {
                         sh ''' 
                         git pull origin main
                         npm install --production
-                        /var/lib/jenkins/.nvm/versions/node/v20.18.0/bin/pm2 restart backend
+                        pm2 restart backend 
                         '''
                     }
                 }
